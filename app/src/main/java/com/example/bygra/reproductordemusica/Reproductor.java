@@ -39,7 +39,7 @@ public class Reproductor extends AppCompatActivity {
 
         //Se rellena la lista de reproduccion con las canciones
 
-        mpList.add(MediaPlayer.create(getApplicationContext(), R.raw.evil_morty_theme.mp3));
+        mpList.add(MediaPlayer.create(getApplicationContext(), R.raw.kortatu_sarri_sarri));
         for(File f : carpetaMusica.listFiles()){
             if(f.isFile()){
                 mpList.add(MediaPlayer.create(this,Uri.fromFile(f)));
@@ -54,7 +54,7 @@ public class Reproductor extends AppCompatActivity {
             btPlayPause.setBackgroundResource(R.drawable.pausa);
         }else{
             mpList.get(nCancion).start();
-            btPlayPause.setBackgroundResource(R.drawable.simbolo_de_boton_de_play);
+            btPlayPause.setBackgroundResource(R.drawable.play);
         }
     }
 

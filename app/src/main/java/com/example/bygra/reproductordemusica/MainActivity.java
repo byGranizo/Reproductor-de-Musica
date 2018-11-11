@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         File carpetaMusica = new File(getExternalStorageDirectory(), "musica");
         carpetaMusica.mkdirs();
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.la_raiz_suya_es_mi_guerra.mp3);
 
 
     }
