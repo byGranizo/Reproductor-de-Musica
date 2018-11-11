@@ -39,22 +39,30 @@ public class Reproductor extends AppCompatActivity {
 
         //Se rellena la lista de reproduccion con las canciones
 
+        mpList.add(MediaPlayer.create(getApplicationContext(), R.raw.evil_morty_theme));
         mpList.add(MediaPlayer.create(getApplicationContext(), R.raw.kortatu_sarri_sarri));
+        mpList.add(MediaPlayer.create(getApplicationContext(), R.raw.la_polla_records_no_somos_nada));
+        mpList.add(MediaPlayer.create(getApplicationContext(), R.raw.la_raiz_suya_mi_guerra));
+        mpList.add(MediaPlayer.create(getApplicationContext(), R.raw.riot_propaganda_el_miedo_va_a_cambiar_de_bando_propaganda));
+        /*
         for(File f : carpetaMusica.listFiles()){
             if(f.isFile()){
                 mpList.add(MediaPlayer.create(this,Uri.fromFile(f)));
             }
-        }
+        }*/
+
+        btPlayPause.setBackgroundResource(R.drawable.pausa);
+        mpList.get(nCancion).start();
     }
 
     //Se ejecuta al dar al boton de play o pause
     public void playPause (View v){
         if(mpList.get(nCancion).isPlaying()){
             mpList.get(nCancion).pause();
-            btPlayPause.setBackgroundResource(R.drawable.pausa);
+            btPlayPause.setBackgroundResource(R.drawable.play);
         }else{
             mpList.get(nCancion).start();
-            btPlayPause.setBackgroundResource(R.drawable.play);
+            btPlayPause.setBackgroundResource(R.drawable.pausa);
         }
     }
 
@@ -66,7 +74,7 @@ public class Reproductor extends AppCompatActivity {
         }else{
             nCancion = 0;
         }
-        mpList.get(nCancion);
+        mpList.get(nCancion).start();
     }
 
     public void prevSong (View v){
@@ -77,7 +85,7 @@ public class Reproductor extends AppCompatActivity {
         }else{
             nCancion--;
         }
-        mpList.get(nCancion);
+        mpList.get(nCancion).start();
     }
 
     public Uri getAlbumArtUri() {
