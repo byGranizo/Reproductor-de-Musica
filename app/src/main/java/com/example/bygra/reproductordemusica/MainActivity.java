@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
         //mpList.get(nCancion).start();
 
         seekbar ();
-
-
     }
 
     //Se ejecuta al dar al boton de play o pause
@@ -91,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         if(mpList.get(nCancion).isPlaying()){
             mpList.get(nCancion).pause();
             btPlayPause.setBackgroundResource(R.drawable.play);
+
+
         }else{
             mpList.get(nCancion).start();
             btPlayPause.setBackgroundResource(R.drawable.pausa);
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         }
         sbCancion.setProgress(0);
         mpList.get(nCancion).start();
+        playCycle();
     }
 
     public void prevSong (View v){
@@ -129,8 +130,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 sbCancion.setMax(mpList.get(nCancion).getDuration());
-                playCycle();
                 mpList.get(nCancion).start();
+                playCycle();
+
             }
         });
 
@@ -155,13 +157,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playCycle(){
+
         sbCancion.setProgress(mpList.get(nCancion).getCurrentPosition());
 
         if(mpList.get(nCancion).isPlaying()){
             runnable = new Runnable() {
                 @Override
                 public void run() {
-                    playCycle();
+                   playCycle();
                 }
             };
             handler.postDelayed(runnable,500);
