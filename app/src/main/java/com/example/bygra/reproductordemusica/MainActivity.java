@@ -10,12 +10,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SeekBar;
 
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.os.Environment.getExternalStorageDirectory;
 
@@ -29,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
     Handler handler;
 
     MediaPlayer mpCancion;
-    ArrayList<MediaPlayer> mpList = new ArrayList<>();
+    List<MediaPlayer> mpList;
 
+    ListView lvCanciones;
+    
     int nCancion = 0;
 
     @Override
@@ -43,10 +48,9 @@ public class MainActivity extends AppCompatActivity {
         btPlayPause = findViewById(R.id.btPlay);
         sbCancion = findViewById(R.id.sbCancion);
 
+
+
         //Se rellena la lista de reproduccion con las canciones
-
-        Log.d("Errores loco", "1");
-
         Uri u1 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.evil_morty_theme);
         Uri u2 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.kortatu_sarri_sarri);
         Uri u3 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.la_polla_records_no_somos_nada);
@@ -59,23 +63,41 @@ public class MainActivity extends AppCompatActivity {
         mpList.add(MediaPlayer.create(this,R.raw.la_raiz_suya_mi_guerra));
         mpList.add(MediaPlayer.create(this,R.raw.riot_propaganda_el_miedo_va_a_cambiar_de_bando_propaganda));
 
-        Log.d("Error", "2");
 /*
         gestionFicheros.copiarArchivo(new File(u1.getPath()),musicSD);
         gestionFicheros.copiarArchivo(new File(u2.getPath()),musicSD);
         gestionFicheros.copiarArchivo(new File(u3.getPath()),musicSD);
         gestionFicheros.copiarArchivo(new File(u4.getPath()),musicSD);
-        gestionFicheros.copiarArchivo(new File(u5.getPath()),musicSD);*/
+        gestionFicheros.copiarArchivo(new File(u5.getPath()),musicSD);
 
-        Log.d("Error", "3");
-/*
         for(File f : musicSD.listFiles()){
             if(f.isFile()){
                 mpList.add(MediaPlayer.create(this,Uri.fromFile(f)));
             }
-        }
-*/
+        }*/
 
+        //Lista de nombres
+        ArrayList<String> listaNombres = new ArrayList<>();
+        for (MediaPlayer mp : mpList){
+            //listaNombres.add(mp.())
+        }
+
+        //Recycler View
+        rvCanciones = findViewById(R.id.rvCanciones);
+        rvCancionesLayoutManager = new LinearLayoutManager(this);
+        rvCanciones.setLayoutManager(rvCancionesLayoutManager);
+
+        rvCancionesAdapter = new AdapterRecycler(this, listaNombres, mpList, new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nCancion = position;
+            }
+        });
+
+
+        rvCanciones.setAdapter(rvCancionesAdapter);
+
+        //Seekbar
         handler = new Handler();
 
         btPlayPause.setBackgroundResource(R.drawable.pausa);
@@ -106,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             nCancion = 0;
         }
         sbCancion.setProgress(0);
+        btPlayPause.setBackgroundResource(R.drawable.pausa);
         mpList.get(nCancion).start();
         playCycle();
     }
@@ -119,7 +142,9 @@ public class MainActivity extends AppCompatActivity {
             nCancion--;
         }
         sbCancion.setProgress(0);
+        btPlayPause.setBackgroundResource(R.drawable.pausa);
         mpList.get(nCancion).start();
+        playCycle();
     }
 
     public void seekbar (){
