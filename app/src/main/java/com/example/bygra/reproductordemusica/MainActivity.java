@@ -31,11 +31,10 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     Handler handler;
 
-    MediaPlayer mpCancion;
-    List<MediaPlayer> mpList;
+    ArrayList<MediaPlayer> mpList = new ArrayList<>();
 
     ListView lvCanciones;
-    
+
     int nCancion = 0;
 
     @Override
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         btPlayPause = findViewById(R.id.btPlay);
         sbCancion = findViewById(R.id.sbCancion);
+        lvCanciones = findViewById(R.id.lvCanciones);
 
 
 
@@ -56,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
         Uri u3 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.la_polla_records_no_somos_nada);
         Uri u4 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.la_raiz_suya_mi_guerra);
         Uri u5 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.riot_propaganda_el_miedo_va_a_cambiar_de_bando_propaganda);
-
+        Log.d("Pene","-2");
         mpList.add(MediaPlayer.create(this,R.raw.evil_morty_theme));
+        Log.d("Pene","ja");
         mpList.add(MediaPlayer.create(this,R.raw.kortatu_sarri_sarri));
         mpList.add(MediaPlayer.create(this,R.raw.la_polla_records_no_somos_nada));
         mpList.add(MediaPlayer.create(this,R.raw.la_raiz_suya_mi_guerra));
@@ -78,24 +79,32 @@ public class MainActivity extends AppCompatActivity {
 
         //Lista de nombres
         ArrayList<String> listaNombres = new ArrayList<>();
-        for (MediaPlayer mp : mpList){
+/*      for (MediaPlayer mp : mpList){
             //listaNombres.add(mp.())
         }
-
-        //Recycler View
-        rvCanciones = findViewById(R.id.rvCanciones);
-        rvCancionesLayoutManager = new LinearLayoutManager(this);
-        rvCanciones.setLayoutManager(rvCancionesLayoutManager);
-
-        rvCancionesAdapter = new AdapterRecycler(this, listaNombres, mpList, new AdapterView.OnItemClickListener() {
+*/      Log.d("Pene","-1");
+        listaNombres.add("1");
+        listaNombres.add("1");
+        listaNombres.add("1");
+        listaNombres.add("1");
+        listaNombres.add("1");
+        listaNombres.add("1");
+        Log.d("Pene","0");
+        AdapterListView adapter = new AdapterListView(this, listaNombres, mpList);
+        Log.d("Pene","1");
+        lvCanciones.setAdapter(adapter);
+        Log.d("Pene","2");
+        lvCanciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 nCancion = position;
+
+                sbCancion.setProgress(0);
+                btPlayPause.setBackgroundResource(R.drawable.pausa);
+                mpList.get(nCancion).start();
+                playCycle();
             }
         });
-
-
-        rvCanciones.setAdapter(rvCancionesAdapter);
 
         //Seekbar
         handler = new Handler();
