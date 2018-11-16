@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class rvAdapter extends RecyclerView.Adapter<rvAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.tvNombre.setText(nombreList.get(i));
 
         long minutes = TimeUnit.MILLISECONDS.toMinutes(mpList.get(i).getDuration());

@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
 
@@ -194,6 +195,21 @@ public class MainActivity extends AppCompatActivity {
         rvAdapter rva = new rvAdapter(this, mpList, nombreList);
         rvCanciones.setAdapter(rva);
         rvCanciones.setLayoutManager(new LinearLayoutManager(this));
+
+        ItemClickSupport.addTo(rvCanciones).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                mpList.get(nCancion).stop();
+
+                nCancion = position;
+
+                sbCancion.setProgress(0);
+                btPlayPause.setBackgroundResource(R.drawable.pausa);
+                mpList.get(nCancion).start();
+                playCycle();
+
+            }
+        });
     }
 
 }
