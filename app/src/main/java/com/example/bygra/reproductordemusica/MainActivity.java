@@ -14,10 +14,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
-
-import static android.os.Environment.getExternalStorageDirectory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,10 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
     SeekBar sbCancion;
     Runnable runnable;
-    Handler handler;
+    Handler handler = new Handler();;
 
     MediaPlayer mpCancion;
     ArrayList<MediaPlayer> mpList = new ArrayList<>();
+    ArrayList<String> nombreList = new ArrayList<>();
+
+    RecyclerView rvCanciones;
 
     int nCancion = 0;
 
@@ -76,7 +76,16 @@ public class MainActivity extends AppCompatActivity {
         }
 */
 
-        handler = new Handler();
+        nombreList.add("1");
+        nombreList.add("2");
+        nombreList.add("3");
+        nombreList.add("4");
+        nombreList.add("5");
+        nombreList.add("6");
+        nombreList.add("7");
+
+
+        recycler();
 
         btPlayPause.setBackgroundResource(R.drawable.pausa);
         //mpList.get(nCancion).start();
@@ -106,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             nCancion = 0;
         }
         sbCancion.setProgress(0);
+        btPlayPause.setBackgroundResource(R.drawable.pausa);
         mpList.get(nCancion).start();
         playCycle();
     }
@@ -119,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             nCancion--;
         }
         sbCancion.setProgress(0);
+        btPlayPause.setBackgroundResource(R.drawable.pausa);
         mpList.get(nCancion).start();
     }
 
@@ -176,6 +187,13 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         mpList.get(nCancion).release();
         handler.removeCallbacks(runnable);
+    }
+
+    public void recycler(){
+        rvCanciones = findViewById(R.id.rvCanciones);
+        rvAdapter rva = new rvAdapter(this, mpList, nombreList);
+        rvCanciones.setAdapter(rva);
+        rvCanciones.setLayoutManager(new LinearLayoutManager(this));
     }
 
 }
