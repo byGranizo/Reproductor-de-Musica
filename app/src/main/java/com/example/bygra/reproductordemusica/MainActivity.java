@@ -2,23 +2,18 @@ package com.example.bygra.reproductordemusica;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
 
     Button btPlayPause;
 
@@ -26,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     Handler handler = new Handler();;
 
-    MediaPlayer mpCancion;
     ArrayList<MediaPlayer> mpList = new ArrayList<>();
     ArrayList<String> nombreList = new ArrayList<>();
 
@@ -39,57 +33,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        File musicSD = new File("/sdcard/Music");
-
         btPlayPause = findViewById(R.id.btPlay);
         sbCancion = findViewById(R.id.sbCancion);
 
         //Se rellena la lista de reproduccion con las canciones
-
-        Log.d("Errores loco", "1");
-
-        Uri u1 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.evil_morty_theme);
-        Uri u2 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.kortatu_sarri_sarri);
-        Uri u3 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.la_polla_records_no_somos_nada);
-        Uri u4 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.la_raiz_suya_mi_guerra);
-        Uri u5 = Uri.parse("android.resource://com.example.bygra.reproductordemusica/" + R.raw.riot_propaganda_el_miedo_va_a_cambiar_de_bando_propaganda);
-
         mpList.add(MediaPlayer.create(this,R.raw.evil_morty_theme));
         mpList.add(MediaPlayer.create(this,R.raw.kortatu_sarri_sarri));
         mpList.add(MediaPlayer.create(this,R.raw.la_polla_records_no_somos_nada));
         mpList.add(MediaPlayer.create(this,R.raw.la_raiz_suya_mi_guerra));
         mpList.add(MediaPlayer.create(this,R.raw.riot_propaganda_el_miedo_va_a_cambiar_de_bando_propaganda));
 
-        Log.d("Error", "2");
-/*
-        gestionFicheros.copiarArchivo(new File(u1.getPath()),musicSD);
-        gestionFicheros.copiarArchivo(new File(u2.getPath()),musicSD);
-        gestionFicheros.copiarArchivo(new File(u3.getPath()),musicSD);
-        gestionFicheros.copiarArchivo(new File(u4.getPath()),musicSD);
-        gestionFicheros.copiarArchivo(new File(u5.getPath()),musicSD);*/
-
-        Log.d("Error", "3");
-/*
-        for(File f : musicSD.listFiles()){
-            if(f.isFile()){
-                mpList.add(MediaPlayer.create(this,Uri.fromFile(f)));
-            }
-        }
-*/
-
-        nombreList.add("1");
-        nombreList.add("2");
-        nombreList.add("3");
-        nombreList.add("4");
-        nombreList.add("5");
-        nombreList.add("6");
-        nombreList.add("7");
-
+        nombreList.add("Rick y Morty - Evil Morty");
+        nombreList.add("Kortatu - Sarri sarri");
+        nombreList.add("La Polla Records - No somos nada");
+        nombreList.add("La Raiz - Suya es mi guerra");
+        nombreList.add("Riot Propaganda - El miedo va a cambiar de bando");
 
         recycler();
 
-        btPlayPause.setBackgroundResource(R.drawable.pausa);
-        //mpList.get(nCancion).start();
+        btPlayPause.setBackgroundResource(R.drawable.play);
 
         seekbar ();
     }
@@ -142,9 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 sbCancion.setMax(mpList.get(nCancion).getDuration());
-                mpList.get(nCancion).start();
                 playCycle();
-
             }
         });
 
@@ -207,9 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 btPlayPause.setBackgroundResource(R.drawable.pausa);
                 mpList.get(nCancion).start();
                 playCycle();
-
             }
         });
     }
-
 }
