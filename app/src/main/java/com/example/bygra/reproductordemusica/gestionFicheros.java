@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class gestionFicheros {
 
+    //Permite copiar archivos desde una localizacion a la carpeta musica dentro de la SD
     public static void copyFiletoExternalStorage(Context context, int resourceId, String resourceName){
         String pathSDCard = Environment.getExternalStorageDirectory() + "/sdcard/Music/" + resourceName;
         try{
@@ -43,6 +44,7 @@ public class gestionFicheros {
 
     }
 
+    //De la carpeta extrae una ArrayList de MediaPlayer con todas las canciones
     public ArrayList<MediaPlayer> getListaCanciones (ArrayList<MediaPlayer> mpList) throws IOException {
 
         MediaPlayer mp = new MediaPlayer();
@@ -56,6 +58,7 @@ public class gestionFicheros {
         return mpList;
     }
 
+    //De la carpeta extrae una ArrayList de String con todos los nombres de las canciones
     public ArrayList<String> getListaNombres(ArrayList<String> nombresLista){
         File ruta= new File(Environment.getExternalStorageDirectory() + "/sdcard/Music/");
         File[] files = ruta.listFiles();

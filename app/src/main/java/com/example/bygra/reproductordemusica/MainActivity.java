@@ -36,39 +36,41 @@ public class MainActivity extends AppCompatActivity {
         btPlayPause = findViewById(R.id.btPlay);
         sbCancion = findViewById(R.id.sbCancion);
 
-        //Se rellena la lista de reproduccion con las canciones
+        btPlayPause.setBackgroundResource(R.drawable.play);
+
+        //Rellena la lista de reproduccion con las canciones (al no poder hacerlo mediante los archivos en la SD se añaden desde raw)
         mpList.add(MediaPlayer.create(this,R.raw.evil_morty_theme));
         mpList.add(MediaPlayer.create(this,R.raw.kortatu_sarri_sarri));
         mpList.add(MediaPlayer.create(this,R.raw.la_polla_records_no_somos_nada));
         mpList.add(MediaPlayer.create(this,R.raw.la_raiz_suya_mi_guerra));
         mpList.add(MediaPlayer.create(this,R.raw.riot_propaganda_el_miedo_va_a_cambiar_de_bando_propaganda));
 
+        //Añade los nombres de las canciones al ArrayList (si usasemos archivos esto se haria sacando el nombre de la cancion desde los metadatos)
         nombreList.add("Rick y Morty - Evil Morty");
         nombreList.add("Kortatu - Sarri sarri");
         nombreList.add("La Polla Records - No somos nada");
         nombreList.add("La Raiz - Suya es mi guerra");
         nombreList.add("Riot Propaganda - El miedo va a cambiar de bando");
 
+        //Inicializa y rellena le Recycler View
         recycler();
 
-        btPlayPause.setBackgroundResource(R.drawable.play);
-
+        //Inicializa la Seek Bar para que monitorice el progreso de la cancion y permita ir a diferentes puntos de la misma
         seekbar ();
     }
 
-    //Se ejecuta al dar al boton de play o pause
+    //Al dar al boton de play/pause cambia el simbolo del boton
     public void playPause (View v){
         if(mpList.get(nCancion).isPlaying()){
             mpList.get(nCancion).pause();
             btPlayPause.setBackgroundResource(R.drawable.play);
-
-
         }else{
             mpList.get(nCancion).start();
             btPlayPause.setBackgroundResource(R.drawable.pausa);
         }
     }
 
+    //Cambia a la siguiente cancion de la lista y la inicia, cambia el simbolo de play/pausa y reincia la Seek Bar
     public void nextSong (View v){
         mpList.get(nCancion).stop();
 
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         mpList.get(nCancion).start();
         playCycle();
     }
-
+    //Cambia a la cancion anterior de la lista y la inicia, cambia el simbolo de play/pausa y reincia la Seek Bar
     public void prevSong (View v){
         mpList.get(nCancion).stop();
 
@@ -94,11 +96,12 @@ public class MainActivity extends AppCompatActivity {
         sbCancion.setProgress(0);
         btPlayPause.setBackgroundResource(R.drawable.pausa);
         mpList.get(nCancion).start();
+        playCycle();
     }
 
+    //Inicializa la Seek Bar
     public void seekbar (){
         mpList.get(nCancion).setAudioStreamType(AudioManager.STREAM_MUSIC);
-
 
         mpList.get(nCancion).setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -108,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Enlaza el progreso de la Seek Bar al progreso de la cancion
         sbCancion.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -115,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                     mpList.get(nCancion).seekTo(progress);
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
@@ -128,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Resetea el Seek Bar al iniciar una nueva cancion establece su progreso a medida que avanza la cancion
     public void playCycle(){
-
         sbCancion.setProgress(mpList.get(nCancion).getCurrentPosition());
 
         if(mpList.get(nCancion).isPlaying()){
@@ -142,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
             handler.postDelayed(runnable,500);
         }
     }
-
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         handler.removeCallbacks(runnable);
     }
 
+    //Incia y rellena el recycler view
     public void recycler(){
         rvCanciones = findViewById(R.id.rvCanciones);
         rvAdapter rva = new rvAdapter(this, mpList, nombreList);
